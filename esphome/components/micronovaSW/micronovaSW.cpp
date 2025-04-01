@@ -39,10 +39,10 @@ void MicroNovaSW::update() {
 
 void MicroNovaSW::loop() {
   // Only read one sensor that needs update per loop
-  // If STOVE_REPLY_DELAY time has passed since last loop()
+  // If serial_reply_delay_  time has passed since last loop()
   // check for a reply from the stove
   if ((this->current_transmission_.reply_pending) &&
-      (millis() - this->current_transmission_.request_transmission_time > STOVE_REPLY_DELAY)) {
+      (millis() - this->current_transmission_.request_transmission_time > serial_reply_delay_ )) {
     int stove_reply_value = this->read_stove_reply();
     if (this->current_transmission_.initiating_listener != nullptr) {
       this->current_transmission_.initiating_listener->process_value_from_stove(stove_reply_value);
