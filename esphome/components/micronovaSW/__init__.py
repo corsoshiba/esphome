@@ -12,6 +12,7 @@ CONF_MICRONOVASW_ID = "micronovaSW_id"
 CONF_ENABLE_RX_PIN = "enable_rx_pin"
 CONF_MEMORY_LOCATION = "memory_location"
 CONF_MEMORY_ADDRESS = "memory_address"
+CONF_SERIAL_REPLY_DELAY = "serial_reply_delay"
 
 micronovaSW_ns = cg.esphome_ns.namespace("micronovaSW")
 
