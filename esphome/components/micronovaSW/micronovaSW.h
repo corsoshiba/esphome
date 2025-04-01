@@ -140,10 +140,15 @@ class MicroNovaSW : public PollingComponent, public uart::UARTDevice {
   void set_stove(MicroNovaSWSwitchListener *s) { this->stove_switch_ = s; }
   MicroNovaSWSwitchListener *get_stove_switch() { return this->stove_switch_; }
 
+  void set_serial_reply_delay(uint16_t d) { this->serial_reply_delay_ = d; }
+  uint16_t get_serial_reply_delay() { return this->serial_reply_delay_; }
+
  protected:
   uint8_t current_stove_state_ = 0;
 
   GPIOPin *enable_rx_pin_{nullptr};
+
+  uint16_t serial_reply_delay_=80;
 
   struct MicroNovaSWSerialTransmission {
     uint32_t request_transmission_time;
