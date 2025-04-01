@@ -34,7 +34,7 @@ CONF_FAN_RPM_OFFSET = "fan_rpm_offset"
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(CONF_MICRONOVA_ID): cv.use_id(MicroNovaSW),
+        cv.GenerateID(CONF_MICRONOVASW_ID): cv.use_id(MicroNovaSW),
         cv.Optional(CONF_ROOM_TEMPERATURE): sensor.sensor_schema(
             MicroNovaSWSensor,
             unit_of_measurement=UNIT_CELSIUS,
@@ -113,7 +113,7 @@ CONFIG_SCHEMA = cv.Schema(
 
 
 async def to_code(config):
-    mv = await cg.get_variable(config[CONF_MICRONOVA_ID])
+    mv = await cg.get_variable(config[CONF_MICRONOVASW_ID])
 
     if room_temperature_config := config.get(CONF_ROOM_TEMPERATURE):
         sens = await sensor.new_sensor(room_temperature_config, mv)
