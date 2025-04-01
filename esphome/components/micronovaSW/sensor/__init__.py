@@ -21,7 +21,7 @@ from .. import (
 
 UNIT_BAR = "bar"
 
-MicroNovaSWSWSensor = micronova_ns.class_("MicroNovaSWSensor", sensor.Sensor, cg.Component)
+MicroNovaSWSensor = micronova_ns.class_("MicroNovaSWSensor", sensor.Sensor, cg.Component)
 
 CONF_ROOM_TEMPERATURE = "room_temperature"
 CONF_FUMES_TEMPERATURE = "fumes_temperature"
