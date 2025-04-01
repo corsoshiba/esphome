@@ -7,12 +7,13 @@
 #include "esphome/core/helpers.h"
 
 #include <vector>
+#include <deque> // aggiunto per prova
 
 namespace esphome {
 namespace micronovaSW {
 
 static const char *const TAG = "micronovaSW";
-static const int STOVE_REPLY_DELAY = 60;
+//static const int STOVE_REPLY_DELAY = 60;  //ELIMINATO PROVA
 
 static const std::string STOVE_STATES[11] = {"Off",
                                              "Start",
@@ -121,6 +122,15 @@ class MicroNovaSWButtonListener : public MicroNovaSWBaseListener {
 class MicroNovaSW : public PollingComponent, public uart::UARTDevice {
  public:
   MicroNovaSW() {}
+  //AGGIUNTO STRUCT
+  struct MicroNovaSWSerialTransmission {
+    uint32_t request_transmission_time;
+    uint8_t memory_location;
+    uint8_t memory_address;
+    uint8_t data;
+    bool reply_pending;
+    MicroNovaSWSensorListener *initiating_listener;
+  };
 
   void setup() override;
   void loop() override;
@@ -139,7 +149,7 @@ class MicroNovaSW : public PollingComponent, public uart::UARTDevice {
 
   void set_stove(MicroNovaSWSwitchListener *s) { this->stove_switch_ = s; }
   MicroNovaSWSwitchListener *get_stove_switch() { return this->stove_switch_; }
-
+  //AGGIUNTO serial_reply_delay
   void set_serial_reply_delay(uint16_t d) { this->serial_reply_delay_ = d; }
   uint16_t get_serial_reply_delay() { return this->serial_reply_delay_; }
 
@@ -147,19 +157,11 @@ class MicroNovaSW : public PollingComponent, public uart::UARTDevice {
   uint8_t current_stove_state_ = 0;
 
   GPIOPin *enable_rx_pin_{nullptr};
-
+  //added for test
   uint16_t serial_reply_delay_=80;
-
-  struct MicroNovaSWSerialTransmission {
-    uint32_t request_transmission_time;
-    uint8_t memory_location;
-    uint8_t memory_address;
-    bool reply_pending;
-    MicroNovaSWSensorListener *initiating_listener;
-  };
-
   Mutex reply_pending_mutex_;
   MicroNovaSWSerialTransmission current_transmission_;
+  std::deque<MicroNovaSWSerialTransmission> write_request_queue_;
 
   std::vector<MicroNovaSWSensorListener *> micronovaSW_listeners_{};
   MicroNovaSWSwitchListener *stove_switch_{nullptr};

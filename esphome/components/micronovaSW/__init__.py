@@ -2,7 +2,11 @@ from esphome import pins
 import esphome.codegen as cg
 from esphome.components import uart
 import esphome.config_validation as cv
-from esphome.const import CONF_ID
+from esphome.const import (
+    CONF_ID,
+)
+
+from esphome.core import TimePeriod
 
 CODEOWNERS = ["@jorre05"]
 
@@ -10,9 +14,10 @@ DEPENDENCIES = ["uart"]
 
 CONF_MICRONOVASW_ID = "micronovaSW_id"
 CONF_ENABLE_RX_PIN = "enable_rx_pin"
+CONF_SERIAL_REPLY_DELAY = "serial_reply_delay"
 CONF_MEMORY_LOCATION = "memory_location"
 CONF_MEMORY_ADDRESS = "memory_address"
-CONF_SERIAL_REPLY_DELAY = "serial_reply_delay"
+
 
 micronovaSW_ns = cg.esphome_ns.namespace("micronovaSW")
 
@@ -39,6 +44,10 @@ CONFIG_SCHEMA = (
         {
             cv.GenerateID(): cv.declare_id(MicroNovaSW),
             cv.Required(CONF_ENABLE_RX_PIN): pins.gpio_output_pin_schema,
+            cv.Optional(CONF_SERIAL_REPLY_DELAY, default="60ms"): cv.All(
+                cv.positive_time_period_milliseconds,
+                cv.Range(min=TimePeriod(milliseconds=60),max=TimePeriod(milliseconds=65535)),
+            ),
         }
     )
     .extend(uart.UART_DEVICE_SCHEMA)
@@ -66,3 +75,4 @@ async def to_code(config):
     await uart.register_uart_device(var, config)
     enable_rx_pin = await cg.gpio_pin_expression(config[CONF_ENABLE_RX_PIN])
     cg.add(var.set_enable_rx_pin(enable_rx_pin))
+    cg.add(var.set_serial_reply_delay(config[CONF_SERIAL_REPLY_DELAY].total_milliseconds))
