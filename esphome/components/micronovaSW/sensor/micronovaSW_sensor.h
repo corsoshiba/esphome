@@ -3,6 +3,7 @@
 #include "esphome/components/micronovaSW/micronovaSW.h"
 #include "esphome/components/sensor/sensor.h"
 
+
 namespace esphome {
 namespace micronovaSW {
 

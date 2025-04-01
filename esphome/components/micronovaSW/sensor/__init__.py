@@ -12,7 +12,7 @@ from esphome.const import (
 from .. import (
     CONF_MEMORY_ADDRESS,
     CONF_MEMORY_LOCATION,
-    CONF_MICRONOVA_ID,
+    CONF_MICRONOVASW_ID,
     MICRONOVA_LISTENER_SCHEMA,
     MicroNovaSW,
     MicroNovaSWFunctions,
