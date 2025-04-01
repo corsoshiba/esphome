@@ -8,14 +8,14 @@ CODEOWNERS = ["@jorre05"]
 
 DEPENDENCIES = ["uart"]
 
-CONF_MICRONOVA_ID = "micronova_id"
+CONF_MICRONOVASW_ID = "micronovaSW_id"
 CONF_ENABLE_RX_PIN = "enable_rx_pin"
 CONF_MEMORY_LOCATION = "memory_location"
 CONF_MEMORY_ADDRESS = "memory_address"
 
-micronova_ns = cg.esphome_ns.namespace("micronova")
+micronovaSW_ns = cg.esphome_ns.namespace("micronovaSW")
 
-MicroNovaFunctions = micronova_ns.enum("MicroNovaFunctions", is_class=True)
+MicroNovaFunctions = micronovaSW_ns.enum("MicroNovaFunctions", is_class=True)
 MICRONOVA_FUNCTIONS_ENUM = {
     "STOVE_FUNCTION_SWITCH": MicroNovaFunctions.STOVE_FUNCTION_SWITCH,
     "STOVE_FUNCTION_ROOM_TEMPERATURE": MicroNovaFunctions.STOVE_FUNCTION_ROOM_TEMPERATURE,
@@ -31,12 +31,12 @@ MICRONOVA_FUNCTIONS_ENUM = {
     "STOVE_FUNCTION_CUSTOM": MicroNovaFunctions.STOVE_FUNCTION_CUSTOM,
 }
 
-MicroNova = micronova_ns.class_("MicroNova", cg.PollingComponent, uart.UARTDevice)
+MicroNovaSW = micronovaSW_ns.class_("MicroNovaSW", cg.PollingComponent, uart.UARTDevice)
 
 CONFIG_SCHEMA = (
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(MicroNova),
+            cv.GenerateID(): cv.declare_id(MicroNovaSW),
             cv.Required(CONF_ENABLE_RX_PIN): pins.gpio_output_pin_schema,
         }
     )
@@ -48,7 +48,7 @@ CONFIG_SCHEMA = (
 def MICRONOVA_LISTENER_SCHEMA(default_memory_location, default_memory_address):
     return cv.Schema(
         {
-            cv.GenerateID(CONF_MICRONOVA_ID): cv.use_id(MicroNova),
+            cv.GenerateID(CONF_MICRONOVA_ID): cv.use_id(MicroNovaSW),
             cv.Optional(
                 CONF_MEMORY_LOCATION, default=default_memory_location
             ): cv.hex_int_range(),
